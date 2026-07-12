@@ -1,0 +1,2 @@
+import { connectToDatabase } from "@/lib/mongodb"; import { Complaint } from "@/models/Complaint"; import { strikeState } from "@/algorithms/core"; import { ok, errorResponse } from "@/lib/api";
+export async function GET(){try{await connectToDatabase();const verifiedCount=await Complaint.countDocuments({status:"verified"});const latest=await Complaint.find({status:"verified"}).sort({createdAt:-1}).limit(5).select("category createdAt -_id").lean();return ok({...strikeState(verifiedCount),verifiedCount,latest});}catch(e){return errorResponse(e)}}

@@ -1,0 +1,3 @@
+import { Schema, model, models } from "mongoose";
+const schema = new Schema({ publicId: { type: String, unique: true }, idempotencyKey: { type: String, unique: true }, location: { type: String, enum: ["library","playground","corridor","classroom","canteen"] }, status: { type: String, enum: ["active","acknowledged","resolved","cancelled"], default: "active", index: true }, acknowledgedBy: Schema.Types.ObjectId, acknowledgedAt: Date, resolvedBy: Schema.Types.ObjectId, resolvedAt: Date }, { timestamps: true, strict: "throw" });
+export const SosAlert = models.SosAlert || model("SosAlert", schema);

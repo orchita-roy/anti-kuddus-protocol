@@ -1,0 +1,13 @@
+"use client";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { AppShell } from "@/components/AppShell";
+import { apiRequest } from "@/lib/api/client";
+type User = { _id: string; name: string; role: string; captainRank?: number; active: boolean };
+export default function AdminUsers() {
+  const [users, setUsers] = useState<User[]>([]); const [message, setMessage] = useState("");
+  const load = useCallback(() => { void apiRequest<User[]>("/api/admin/users").then(setUsers).catch((error) => setMessage(error.message)); }, []);
+  useEffect(load, [load]);
+  async function create(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const form = new FormData(event.currentTarget); try { await apiRequest("/api/admin/users", { method: "POST", body: JSON.stringify({ name: form.get("name"), rollNumber: form.get("rollNumber"), classCode: form.get("classCode"), role: form.get("role") }) }); event.currentTarget.reset(); setMessage("User created"); load(); } catch (error) { setMessage(error instanceof Error ? error.message : "Creation failed"); } }
+  async function toggle(user: User) { await apiRequest(`/api/admin/users/${user._id}`, { method: "PATCH", body: JSON.stringify({ active: !user.active }) }); load(); }
+  return <AppShell title="User administration"><div className="eyebrow">Admin-only account lifecycle</div><h1>Provision without exposing credentials.</h1><div className="grid"><div className="card" style={{gridColumn:"span 4",alignSelf:"start"}}><h2>Create account</h2><form onSubmit={create}><div className="field"><label>Name</label><input name="name" required minLength={2}/></div><div className="field"><label>Roll number</label><input name="rollNumber" required/></div><div className="field"><label>Initial class code</label><input name="classCode" type="password" minLength={8} required/></div><div className="field"><label>Role</label><select name="role"><option value="student">Student</option><option value="captain">Captain</option><option value="teacher">Teacher</option><option value="admin">Admin</option></select></div>{message&&<div className="notice">{message}</div>}<button className="btn primary">Create user</button></form></div><div className="card" style={{gridColumn:"span 8"}}><h2>Accounts</h2>{users.length?<table><thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Action</th></tr></thead><tbody>{users.map(user=><tr key={user._id}><td>{user.name}</td><td>{user.role}</td><td><span className={`badge ${user.active?"green":"red"}`}>{user.active?"active":"disabled"}</span></td><td><button className="btn ghost" onClick={()=>toggle(user)}>{user.active?"Disable":"Activate"}</button></td></tr>)}</tbody></table>:<div className="empty">No accounts found.</div>}</div></div></AppShell>;
+}

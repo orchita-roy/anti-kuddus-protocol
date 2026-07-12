@@ -1,0 +1,2 @@
+import { requireRole } from "@/lib/permissions";import { connectToDatabase } from "@/lib/mongodb";import { SosAlert } from "@/models/SosAlert";import { ok,fail,errorResponse } from "@/lib/api";
+export async function GET(){try{if(!await requireRole("captain","admin"))return fail("FORBIDDEN","Captain access required",403);await connectToDatabase();return ok(await SosAlert.find().sort({status:1,createdAt:-1}).limit(100).lean())}catch(e){return errorResponse(e)}}

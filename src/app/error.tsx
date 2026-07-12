@@ -1,0 +1,1 @@
+"use client";export default function ErrorPage({reset}:{reset:()=>void}){return <div className="content"><div className="card"><h2>Mission interrupted</h2><p>The request failed safely. No sensitive details were exposed.</p><button className="btn" onClick={reset}>Retry</button></div></div>}

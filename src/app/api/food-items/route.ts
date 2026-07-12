@@ -1,0 +1,2 @@
+import { requireRole } from "@/lib/permissions";import { connectToDatabase } from "@/lib/mongodb";import { FoodItem } from "@/models/FoodItem";import { ok,fail,errorResponse } from "@/lib/api";
+export async function GET(){try{if(!await requireRole("student","teacher","admin"))return fail("FORBIDDEN","Sign in required",403);await connectToDatabase();return ok(await FoodItem.find({active:true}).sort({name:1}).lean())}catch(e){return errorResponse(e)}}

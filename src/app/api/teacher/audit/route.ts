@@ -1,0 +1,2 @@
+import { requireRole } from "@/lib/permissions";import { connectToDatabase } from "@/lib/mongodb";import { AuditLog } from "@/models/AuditLog";import { ok,fail,errorResponse } from "@/lib/api";
+export async function GET(){try{if(!await requireRole("teacher","admin"))return fail("FORBIDDEN","Teacher access required",403);await connectToDatabase();return ok(await AuditLog.find().sort({createdAt:-1}).limit(100).select("action entityType safeMetadata createdAt").lean())}catch(e){return errorResponse(e)}}
