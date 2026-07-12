@@ -1,0 +1,1 @@
+export function calculateHotspot(items:Array<{location:string;date?:Date}>){const counts=new Map<string,number>();for(const item of items)counts.set(item.location,(counts.get(item.location)||0)+1);const top=[...counts].sort((a,b)=>b[1]-a[1])[0];return top?{location:top[0],incidentCount:top[1],peakTime:null}:null}

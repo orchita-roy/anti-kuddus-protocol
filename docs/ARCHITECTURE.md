@@ -1,16 +1,59 @@
 # Architecture
 
-The application is one Next.js App Router deployment. Client pages call relative `/api/*` Route Handlers; handlers perform authentication, Zod validation, authorization, business logic, and Mongoose persistence. There is no separate backend.
+The application remains one Next.js App Router deployment. Route Handlers authenticate, validate with Zod, authorize roles, execute deterministic services, and persist through Mongoose. MongoDB is the only application database.
 
 ```mermaid
 flowchart LR
-  UI[Responsive React UI] --> API[Next.js Route Handlers]
-  API --> AUTH[NextAuth JWT authorization]
-  API --> DB[(MongoDB collections)]
-  API --> FS[(MongoDB GridFS)]
-  API --> EXT[Optional Gemini and Pusher]
+  UI[Responsive React UI] --> API[Route Handlers]
+  API --> AUTH[Auth.js JWT roles]
+  API --> DB[(MongoDB and GridFS)]
+  API --> TOOLS[Role-checked tool gateway]
+  TOOLS --> SAFE[Sanitized context]
+  SAFE --> GEMINI[Optional Gemini]
+  GEMINI --> ZOD[Zod validation]
+  ZOD --> UI
 ```
 
-The central trust boundary is the schema. `Complaint`, `LedgerEntry`, and `SosAlert` cannot store student/session references. An authenticated ID is used transiently to create a daily complaint HMAC in `SubmissionLimit`; it has no complaint ID and expires. Evidence is re-encoded before GridFS storage.
+Gemini never receives a database connection or raw complaint/SOS evidence. Chat messages store grounded citations but not confidential source material.
 
-Mongoose connections are cached. Indexes cover unique IDs, statuses, lookup hashes, and TTL limits. Binary processing uses the Node runtime. Seating reserves invalid seats, honors fixed/accessibility placement, then sorts by height. Curriculum becomes overlapping chunks; retrieval returns exact stored source text and rejects weak matches.
+```mermaid
+flowchart TD
+  Input[Text URL or cleaned image] --> Normalize
+  Normalize --> Retrieve[Rules notices curriculum]
+  Retrieve --> Compare[Date authority contradiction]
+  Input --> Image[Sharp metadata strip SHA-256 perceptual hash]
+  Image --> Compare
+  Compare --> Result[Grounded non-absolute result]
+```
+
+TruthLens stores anonymous checks and safe technical indicators. Fingerprints support duplicate detection; binary uploads are not retained by this module.
+
+```mermaid
+flowchart LR
+  C[Verified complaints] --> D[Deterministic analysis]
+  S[Acknowledged/resolved SOS] --> D
+  L[Anonymous ledger] --> D
+  R[TruthLens aggregates] --> D
+  D --> Score[Transparent risk score]
+  D --> Hotspot
+  D --> Trend
+  D --> Correlation
+  D --> Explain[Optional sanitized explanation]
+```
+
+Rejected complaints are excluded and pending complaints do not affect the score. No service changes a role, deletes an account, or punishes a person.
+
+```mermaid
+sequenceDiagram
+  participant Student
+  participant Server
+  participant Votes as AnonymousVote
+  Student->>Server: authenticated vote
+  Server->>Server: validate eligibility and poll window
+  Server->>Server: HMAC(userId + pollId)
+  Server->>Votes: pollId + token + choice
+  Votes-->>Server: unique compound index enforces one vote
+  Server-->>Student: identity-separated receipt
+```
+
+Cross-module flow: report → verify → correlate → detect patterns → explain → vote/respond → track action → prevent repetition. Recurring issues may suggest a proposal, but only a teacher can approve/open a vote. Three verified strikes only establish impeachment eligibility; an authorized teacher must open the vote.

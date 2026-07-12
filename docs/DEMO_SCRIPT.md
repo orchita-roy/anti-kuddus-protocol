@@ -1,12 +1,14 @@
-# Demo script
+# Competition demo script
 
-1. Open `/warnings`; show two seeded warnings and one remaining strike.
-2. Student `07 / student123` submits a complaint and saves the public receipt.
-3. Teacher `T01 / teacher123` reviews cleaned evidence and verifies it.
-4. Return to `/warnings`; show the third strike.
-5. Student generates a 5×5 plan with aisle column 3; show Kuddus and visibility.
-6. Teacher uploads a Science TXT. Student submits mixed official/nonsense topics and downloads the plan JSON.
-7. Record forced payment and stolen food; show charts and conversions.
-8. In two browser profiles, student sends Library SOS; captain `02 / captain123` acknowledges and resolves it.
-9. Fact-check “Captains do not have to submit homework.” Show FALSE and the exact rule.
-10. Show Teacher Audit: reviews are logged, submitters never are.
+1. Admin `A01 / admin123` opens `/admin/demo` and selects **Start Competition Demo**. Show the seven-step timeline and “Simulated Demo Data” labels.
+2. Student `07 / student123` asks ClassGuard at `/assistant`: “Is washroom payment required?” Show the stored rule citation.
+3. At `/truthlens`, paste “Students must pay to use the washroom,” optionally attach a fake screenshot, and show the contradiction plus authenticity limitation.
+4. Teacher `T01 / teacher123` opens `/teacher/truthlens`, then `/teacher/behaviour-intelligence`. Show the financial exploitation category, corridor hotspot, increasing trend, complaint–SOS correlation, transparent score, and limitations.
+5. Open `/democracy/impeachment`; show that the third verified warning establishes eligibility but does not open or execute a vote.
+6. Teacher opens the vote from `/teacher/democracy`. Explain the default 60% turnout, 66% support, and 24-hour window.
+7. Student opens `/democracy`, selects the active proposal, and votes. Repeat the vote to show one-vote enforcement without exposing identity.
+8. Teacher views aggregate results. Explain that abstention counts toward turnout, not approval.
+9. Show `/democracy` implementation tracker: decision passed → action assigned → completion verified.
+10. Admin returns to `/admin/demo` and selects **Reset Competition Demo**. State that real user data remains untouched.
+
+The story is: Rule checked → Fake notice detected → Pattern identified → Third strike reached → Vote opened → Decision passed → Action assigned.

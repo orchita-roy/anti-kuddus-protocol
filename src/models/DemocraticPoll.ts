@@ -1,0 +1,3 @@
+import { Schema,model,models } from "mongoose";
+const schema=new Schema({publicId:{type:String,unique:true,required:true},pollType:{type:String,enum:["proposal","impeachment","captain_election"],index:true},relatedEntityId:Schema.Types.ObjectId,title:String,description:String,status:{type:String,enum:["scheduled","open","closed","cancelled"],index:true},votingStartsAt:Date,votingEndsAt:Date,eligibleVoterCount:Number,minimumTurnoutPercent:Number,requiredApprovalPercent:Number,resultPublished:{type:Boolean,default:false},createdBy:Schema.Types.ObjectId,isDemo:{type:Boolean,default:false,index:true}},{timestamps:true,strict:"throw"});
+export const DemocraticPoll=models.DemocraticPoll||model("DemocraticPoll",schema);

@@ -18,7 +18,7 @@ if (!entries.get("MONGODB_URI")?.trim()) {
 
 entries.set("MONGODB_DB_NAME", entries.get("MONGODB_DB_NAME") || "anti_kuddus_protocol");
 entries.set("NEXTAUTH_URL", entries.get("NEXTAUTH_URL") || "http://localhost:3000");
-for (const key of ["AUTH_SECRET", "ROLL_LOOKUP_SECRET", "COMPLAINT_HMAC_SECRET"]) {
+for (const key of ["AUTH_SECRET", "ROLL_LOOKUP_SECRET", "COMPLAINT_HMAC_SECRET", "VOTE_HMAC_SECRET"]) {
   if (!entries.get(key)?.trim()) entries.set(key, randomBytes(48).toString("base64url"));
 }
 
@@ -28,6 +28,7 @@ const preferredOrder = [
   "AUTH_SECRET",
   "ROLL_LOOKUP_SECRET",
   "COMPLAINT_HMAC_SECRET",
+  "VOTE_HMAC_SECRET",
   "NEXTAUTH_URL",
 ];
 const remaining = [...entries.keys()].filter((key) => !preferredOrder.includes(key));

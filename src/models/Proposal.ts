@@ -1,0 +1,4 @@
+import { Schema,model,models } from "mongoose";
+export const PROPOSAL_STATUSES=["submitted","under_review","open","passed","rejected","implementation_pending","implemented","expired"] as const;
+const schema=new Schema({publicId:{type:String,unique:true,required:true},title:{type:String,required:true},description:{type:String,required:true},category:{type:String,enum:["safety","academics","seating","food","captain_governance","other"]},status:{type:String,enum:PROPOSAL_STATUSES,default:"submitted",index:true},moderationReason:String,votingStartsAt:Date,votingEndsAt:Date,minimumTurnoutPercent:{type:Number,default:60},requiredApprovalPercent:{type:Number,default:50},submissionToken:{type:String,select:false},isDemo:{type:Boolean,default:false,index:true}},{timestamps:true,strict:"throw"});
+export const Proposal=models.Proposal||model("Proposal",schema);

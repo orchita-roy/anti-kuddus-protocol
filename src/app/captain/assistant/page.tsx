@@ -1,0 +1,1 @@
+import { AppShell } from "@/components/AppShell";import { ChatShell } from "@/components/assistant/ChatShell";export default function Page(){return <AppShell title="Captain ClassGuard"><div className="eyebrow">Response guidance</div><h1>Prioritize safely.</h1><p>Get sanitized SOS summaries and response guidance without learning who sent an alert.</p><ChatShell/></AppShell>}

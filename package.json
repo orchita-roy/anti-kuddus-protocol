@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
+    "test:e2e": "npm run test:e2e:prepare && playwright test",
     "test:e2e:prepare": "tsx scripts/prepare-e2e.ts",
     "seed": "tsx scripts/seed.ts",
     "reset:demo": "tsx scripts/reset-demo-data.ts",

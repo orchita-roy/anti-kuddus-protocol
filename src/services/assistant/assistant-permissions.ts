@@ -1,0 +1,6 @@
+import type { Role } from "@/lib/permissions";
+export type AssistantTool="searchSchoolRules"|"searchCurriculum"|"getPublicWarningStatus"|"getPublicComplaintStatistics"|"getTeacherComplaintSummary"|"getLedgerAnalytics"|"getSafeSosSummary"|"getSeatPlanExplanation"|"getBehaviourRiskSummary"|"getRumorCheckSummary"|"getDemocracyProposalSummary"|"getImplementationTrackerSummary";
+const publicTools:AssistantTool[]=["searchSchoolRules","searchCurriculum","getPublicWarningStatus","getPublicComplaintStatistics","getLedgerAnalytics","getRumorCheckSummary","getDemocracyProposalSummary","getImplementationTrackerSummary"];
+const roleTools:Record<Role,AssistantTool[]>={student:publicTools,captain:[...publicTools,"getSafeSosSummary"],teacher:[...publicTools,"getTeacherComplaintSummary","getSafeSosSummary","getSeatPlanExplanation","getBehaviourRiskSummary"],admin:[...publicTools,"getTeacherComplaintSummary","getSafeSosSummary","getSeatPlanExplanation","getBehaviourRiskSummary"]};
+export const canUseAssistantTool=(role:Role,tool:AssistantTool)=>roleTools[role].includes(tool);
+export function assertAssistantTool(role:Role,tool:AssistantTool){if(!canUseAssistantTool(role,tool))throw new Error("ASSISTANT_TOOL_FORBIDDEN")}
