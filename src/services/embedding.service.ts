@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export function deterministicEmbedding(text: string, dimensions = 96) {
   const vector = Array.from({ length: dimensions }, () => 0);
-  const tokens = text.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+  const tokens = text.normalize("NFKC").toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [];
   for (const token of tokens) {
     let hash = 2166136261;
     for (const char of token) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
